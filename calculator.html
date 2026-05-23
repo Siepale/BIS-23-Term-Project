@@ -1,0 +1,832 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MPG Calculator - BIS 23 Term Project</title>
+
+    <style>
+
+        /* ==========================================================================
+           1. ROOT VARIABLES
+           ========================================================================== */
+
+        :root {
+            --bg-color: #f8f9fa;
+            --surface-bg: #ffffff;
+            --text-main: #1a1f26;
+            --text-muted: #606f7b;
+            --primary-gold: #d4af37;
+            --primary-hover: #b89628;
+            --white: #ffffff;
+            --topbar-bg: #11141a;
+            --topbar-text: #ffffff;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* ==========================================================================
+           2. DARK MODE
+           ========================================================================== */
+
+        [data-theme="dark"] {
+            --bg-color: #0f1115;
+            --text-main: #f1f3f5;
+            --text-muted: #9fb3c8;
+            --topbar-bg: #07080a;
+        }
+
+        /* ==========================================================================
+           3. RESET
+           ========================================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ==========================================================================
+           4. HEADER
+           ========================================================================== */
+
+        .top-bar {
+            background: var(--topbar-bg);
+            color: var(--topbar-text);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            position: sticky;
+            top: 0;
+            z-index: 9999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+            .logo-text span {
+                color: var(--primary-gold);
+            }
+
+        /* ==========================================================================
+           5. NAVIGATION
+           ========================================================================== */
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+            .nav a {
+                color: rgba(255,255,255,0.82);
+                font-size: 13px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                transition: 0.2s ease;
+            }
+
+                .nav a:hover {
+                    color: var(--primary-gold);
+                }
+
+        /* ==========================================================================
+           6. DROPDOWN MENU
+           ========================================================================== */
+
+        .dropdown {
+            position: relative;
+        }
+
+            .dropdown > a {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+        .dropdown-content {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            min-width: 230px;
+            background: #161a22;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            overflow: hidden;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+            z-index: 999;
+        }
+
+        /* FIXED HOVER AREA */
+
+        .dropdown::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            height: 15px;
+        }
+
+        /* DESKTOP HOVER FIX */
+
+        @media (min-width: 769px) {
+
+            .dropdown:hover .dropdown-content {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px 18px;
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: none;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            transition: 0.2s ease;
+        }
+
+            .dropdown-content a:hover {
+                background: rgba(212,175,55,0.08);
+                color: var(--primary-gold);
+                padding-left: 24px;
+            }
+
+        /* ==========================================================================
+           7. MOBILE MENU BUTTON
+           ========================================================================== */
+
+        .menu-toggle {
+            display: none;
+            font-size: 30px;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           8. THEME TOGGLE
+           ========================================================================== */
+
+        .theme-toggle-container {
+            display: flex;
+            align-items: center;
+        }
+
+        #theme-toggle {
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s ease;
+        }
+
+            #theme-toggle:hover {
+                transform: scale(1.05);
+                background: var(--primary-hover);
+            }
+
+        #theme-icon {
+            font-size: 16px;
+        }
+
+        /* ==========================================================================
+           9. MAIN CONTENT
+           ========================================================================== */
+
+        .main-content {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+            .main-content h1 {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+
+            .main-content p {
+                max-width: 700px;
+                margin: auto;
+                color: var(--text-muted);
+            }
+
+        /* ==========================================================================
+           10. FOOTER
+           ========================================================================== */
+
+        .footer {
+            background: var(--topbar-bg);
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+            .footer p {
+                margin-bottom: 20px;
+            }
+
+        .footer-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+            .footer-nav a {
+                color: rgba(255,255,255,0.55);
+                font-size: 13px;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+
+                .footer-nav a:hover {
+                    color: var(--primary-gold);
+                }
+
+            .footer-nav .dropdown-content {
+                top: auto;
+                bottom: calc(100% + 10px);
+                left: 50%;
+                transform: translateX(-50%) translateY(10px);
+            }
+
+            .footer-nav .dropdown:hover .dropdown-content {
+                opacity: 1;
+                visibility: visible;
+                transform: translateX(-50%) translateY(0);
+            }
+
+        /* ==========================================================================
+           11. MOBILE RESPONSIVE
+           ========================================================================== */
+
+        @media (max-width: 768px) {
+
+            .top-bar {
+                padding: 15px 20px;
+                position: relative;
+            }
+
+            .logo-text {
+                font-size: 1rem;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #161a22;
+                border-top: 1px solid rgba(255,255,255,0.05);
+                padding: 10px 0;
+            }
+
+                .nav.active {
+                    display: flex;
+                }
+
+                .nav a {
+                    width: 100%;
+                    padding: 15px 20px;
+                    border-bottom: 1px solid rgba(255,255,255,0.05);
+                }
+
+            .dropdown {
+                width: 100%;
+            }
+
+            .dropdown-content {
+                position: static;
+                min-width: 100%;
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                background: #0f1115;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                margin-top: 0;
+            }
+
+                .dropdown-content.active {
+                    display: block;
+                }
+
+                .dropdown-content a {
+                    padding-left: 40px;
+                }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .main-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="top-bar">
+
+        <div class="logo-area">
+
+            <div class="logo-text">
+                BIS 23 <span>Term Project</span>
+            </div>
+
+            <div class="theme-toggle-container">
+
+                <button id="theme-toggle" aria-label="Toggle Theme">
+
+                    <span id="theme-icon">🌙</span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- MOBILE BUTTON -->
+
+        <div class="menu-toggle" id="mobile-menu">
+            ☰
+        </div>
+
+        <!-- NAVIGATION -->
+
+        <nav class="nav" id="nav-menu">
+
+            <a href="index.html">Home</a>
+
+            <a href="requidoc">Requirement-Doc</a>
+
+            <a href="workstation.html">Work-Station</a>
+
+            <a href="handsonproject.html">Hand-Project</a>
+
+            <a href="calculator.html">Calculator</a>
+
+            <a href="jspresent.html">JavaScript</a>
+
+            <a href="debugging.html">Debugging</a>
+
+            <a href="mortgage.html">Mortgage</a>
+
+            <a href="invoice.html">Invoice</a>
+
+            <a href="risen.html">Risen</a>
+
+            <a href="quiz.html">Quizs</a>
+
+        </nav>
+
+    </header>
+
+
+
+
+
+
+
+    <!-- ================= MPG CALCULATOR ================= -->
+
+    <style>
+
+        /* ================= WRAPPER ================= */
+
+        .mpg-wrapper {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .mpg-wrapper h1 {
+                font-size: 3rem;
+                font-weight: 700;
+                letter-spacing: -1px;
+                margin-bottom: 50px;
+            }
+
+        /* ================= CARD ================= */
+
+        .calculator-container {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            background: var(--surface);
+            border: 2px solid rgba(212, 175, 55, 0.75); /* brighter border */
+
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+            overflow: hidden;
+            transition: 0.3s ease;
+            position: relative;
+        }
+
+            /* STRONGER GLOW BORDER */
+            .calculator-container::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 20px;
+                padding: 2px;
+                background: linear-gradient( 135deg, rgba(212,175,55,1), rgba(255,255,255,0.12), rgba(212,175,55,0.4) );
+                -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+                -webkit-mask-composite: xor;
+                mask-composite: exclude;
+                pointer-events: none;
+            }
+
+        /* ================= BODY ================= */
+
+        .calc-body {
+            padding: 45px 30px;
+            text-align: center;
+        }
+
+            .calc-body img {
+                width: 55px;
+                margin-bottom: 15px;
+                opacity: 0.95;
+            }
+
+            .calc-body h2 {
+                font-size: 1.4rem;
+                font-weight: 600;
+                margin-bottom: 5px;
+                color: var(--text);
+            }
+
+            .calc-body h3 {
+                font-size: 0.85rem;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--primary);
+                margin-bottom: 30px;
+            }
+
+            /* ================= INPUTS (HIGH VISIBILITY FIX) ================= */
+
+            .calc-body input {
+                width: 100%;
+                padding: 16px 14px;
+                margin-bottom: 15px;
+                border-radius: 12px;
+                /* 🔥 MUCH STRONGER BORDER */
+                border: 2px solid rgba(212, 175, 55, 0.45);
+                background: var(--surface-2);
+                color: var(--text);
+                font-size: 1rem;
+                outline: none;
+                transition: 0.25s ease;
+            }
+
+                /* stronger focus glow */
+                .calc-body input:focus {
+                    border-color: rgba(212, 175, 55, 1);
+                    box-shadow: 0 0 0 4px rgba(212,175,55,0.25);
+                }
+
+            /* ================= BUTTON (HIGH VISIBILITY UPGRADE) ================= */
+
+            .calc-body button {
+                width: 100%;
+                padding: 16px;
+                border: none;
+                border-radius: 14px;
+                /* 🔥 stronger gradient button */
+                background: linear-gradient(135deg, #ffd76a, #d4af37, #b89628);
+                color: #000;
+                font-size: 1rem;
+                font-weight: 800;
+                letter-spacing: 1.2px;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 10px 25px rgba(212,175,55,0.25);
+                transition: 0.25s ease;
+            }
+
+                /* hover glow boost */
+                .calc-body button:hover {
+                    transform: scale(1.05);
+                    box-shadow: 0 15px 35px rgba(212,175,55,0.45);
+                }
+
+        /* ================= RESULT ================= */
+
+        #result {
+            margin-top: 22px;
+            padding: 14px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .result-success {
+            background: rgba(212,175,55,0.14);
+            border: 1px solid rgba(212,175,55,0.5);
+            color: var(--text);
+        }
+
+        .result-error {
+            background: rgba(255, 60, 60, 0.12);
+            border: 1px solid rgba(255, 60, 60, 0.35);
+            color: #ff6b6b;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================= INFO BAR ================= */
+
+        .info-bar {
+            padding: 14px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            background: var(--surface-2);
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+            .mpg-wrapper h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+
+    <!-- ================= HTML ================= -->
+
+    <main class="main-content" style="display:block;">
+
+        <div class="mpg-wrapper">
+
+            <h1>MPG Calculator</h1>
+
+            <div class="calculator-container">
+
+                <div class="calc-body">
+
+                    <img src="images/calculator.png" alt="Calculator">
+
+                    <h2>Sie L Pale</h2>
+                    <h3>Fuel Efficiency Tool</h3>
+
+                    <input type="number" id="miles" placeholder="Miles Traveled" min="0">
+                    <input type="number" id="gallons" placeholder="Gallons Used" min="0">
+
+                    <button id="btn-calculate">Calculate MPG</button>
+
+                    <div id="result"></div>
+
+                </div>
+
+                <div class="info-bar">
+                    Enter values and click calculate
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const calcButton = document.getElementById("btn-calculate");
+        const resultDiv = document.getElementById("result");
+
+        calcButton.addEventListener("click", () => {
+
+            const miles = parseFloat(document.getElementById("miles").value);
+            const gallons = parseFloat(document.getElementById("gallons").value);
+
+            resultDiv.classList.remove("result-success", "result-error");
+            resultDiv.style.display = "none";
+
+            if (isNaN(miles) || isNaN(gallons) || miles <= 0 || gallons <= 0) {
+                resultDiv.classList.add("result-error");
+                resultDiv.textContent = "Please enter valid numbers greater than 0.";
+                resultDiv.style.display = "block";
+                return;
+            }
+
+            const mpg = (miles / gallons).toFixed(2);
+
+            resultDiv.classList.add("result-success");
+            resultDiv.textContent = `Fuel Efficiency: ${mpg} MPG`;
+            resultDiv.style.display = "block";
+        });
+
+    </script>
+
+
+
+
+
+
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+        <p>© Spring 2026 BIS 23 Term Project. All Rights Reserved.</p>
+
+        <nav class="footer-nav">
+
+            <a href="index.html">Home</a>
+
+            <a href="requidoc">Requirement-Doc</a>
+
+            <a href="workstation.html">Work-Station</a>
+
+            <a href="handsonproject.html">Hand-Project</a>
+
+            <a href="calculator.html">Calculator</a>
+
+            <a href="jspresent.html">JavaScript</a>
+
+            <a href="debugging.html">Debugging</a>
+
+            <a href="mortgage.html">Mortgage</a>
+
+            <a href="invoice.html">Invoice</a>
+
+            <a href="risen.html">Risen</a>
+
+            <a href="quiz.html">Quizs</a>
+
+        </nav>
+
+    </footer>
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        /* MOBILE MENU */
+
+        const menuBtn = document.getElementById("mobile-menu");
+        const navMenu = document.getElementById("nav-menu");
+
+        menuBtn.addEventListener("click", () => {
+
+            navMenu.classList.toggle("active");
+
+        });
+
+        /* MOBILE DROPDOWN */
+
+        document.querySelectorAll(".dropdown > a").forEach(link => {
+
+            link.addEventListener("click", function (e) {
+
+                if (window.innerWidth <= 768) {
+
+                    e.preventDefault();
+
+                    const dropdown = this.nextElementSibling;
+
+                    document.querySelectorAll(".dropdown-content").forEach(item => {
+
+                        if (item !== dropdown) {
+
+                            item.classList.remove("active");
+
+                        }
+
+                    });
+
+                    dropdown.classList.toggle("active");
+
+                }
+
+            });
+
+        });
+
+        /* CLOSE MENU OUTSIDE */
+
+        document.addEventListener("click", function (e) {
+
+            if (
+                !e.target.closest(".nav") &&
+                !e.target.closest("#mobile-menu")
+            ) {
+
+                navMenu.classList.remove("active");
+
+            }
+
+        });
+
+        /* DARK MODE */
+
+        const toggle = document.getElementById("theme-toggle");
+        const icon = document.getElementById("theme-icon");
+
+        toggle.addEventListener("click", () => {
+
+            const isDark =
+                document.documentElement.getAttribute("data-theme") === "dark";
+
+            const newTheme = isDark ? "light" : "dark";
+
+            document.documentElement.setAttribute("data-theme", newTheme);
+
+            localStorage.setItem("theme", newTheme);
+
+            icon.textContent =
+                newTheme === "dark" ? "☀️" : "🌙";
+
+        });
+
+        /* LOAD THEME */
+
+        if (localStorage.getItem("theme") === "dark") {
+
+            document.documentElement.setAttribute("data-theme", "dark");
+
+            icon.textContent = "☀️";
+
+        }
+
+    </script>
+
+</body>
+</html>
