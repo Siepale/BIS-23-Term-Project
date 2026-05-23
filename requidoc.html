@@ -449,40 +449,108 @@
 
 
 
-
     <!-- ================= REQUIREMENTS DOCUMENT SECTION ================= -->
+    <main style="padding: 60px 20px 80px 20px; max-width: 1200px; margin: 0 auto; width: 100%;">
 
-    <section style="padding:80px 20px; max-width:1100px; margin:0 auto;">
-
-        <!-- TITLE -->
-        <div style="text-align:center; margin-bottom:50px;">
-            <h1 style="font-size:2.5rem; margin-bottom:10px; color:var(--text-main);">
-                Midterm & Final Project Requirements
+        <!-- TITLE & HEADER -->
+        <div style="text-align: center; margin-bottom: 60px;">
+            <span style="color: var(--primary-gold); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; display: inline-block; margin-bottom: 10px;">
+                Course Documentation
+            </span>
+            <h1 style="font-size: 2.8rem; margin-bottom: 15px; color: var(--text-main); font-weight: 800; letter-spacing: -0.5px;">
+                Midterm &amp; Final Project Requirements
             </h1>
-            <p style="color:var(--text-muted); max-width:700px; margin:0 auto;">
-                Planning document for a dynamic PHP & SQL database-driven website built for BIS 23 Spring 2026.
+            <div style="width: 60px; height: 4px; background: var(--primary-gold); margin: 20px auto; border-radius: 2px;"></div>
+            <p style="color: var(--text-muted); max-width: 650px; margin: 0 auto; font-size: 1.05rem; line-height: 1.6;">
+                Planning document for a dynamic PHP &amp; SQL database-driven website built for <strong style="color: var(--text-main);">BIS 23 Spring 2026</strong>.
             </p>
         </div>
 
-        <!-- GRID -->
-        <div style="
-        display:grid;
-        grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-        gap:20px;
-    ">
+        <!-- STYLESHEET EXTENSION FOR HOVER EFFECTS & CARD TRANSITIONS -->
+        <style>
+            .req-card {
+                background: var(--surface-bg);
+                padding: 30px;
+                border-radius: 16px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+            }
+
+            [data-theme="dark"] .req-card {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                border: 1px solid rgba(255, 255, 255, 0.04);
+            }
+
+            .req-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+                border-color: var(--primary-gold);
+            }
+
+            [data-theme="dark"] .req-card:hover {
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            }
+
+            .full-width-image-container {
+                position: relative;
+                width: 100%;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(0, 0, 0, 0.05);
+                margin-top: 40px;
+                transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+            }
+
+            [data-theme="dark"] .full-width-image-container {
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+                border: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            .full-width-image-container:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 40px rgba(212, 175, 55, 0.12);
+                border-color: var(--primary-gold);
+            }
+
+            .interactive-img {
+                width: 100%;
+                height: auto;
+                max-height: 600px;
+                object-fit: cover;
+                display: block;
+                transition: transform 0.5s ease;
+            }
+
+            .full-width-image-container:hover .interactive-img {
+                transform: scale(1.015);
+            }
+
+            .sitemap-node {
+                background: rgba(0, 0, 0, 0.02);
+                border-left: 3px solid var(--primary-gold);
+                padding: 16px;
+                border-radius: 0 8px 8px 0;
+            }
+
+            [data-theme="dark"] .sitemap-node {
+                background: rgba(255, 255, 255, 0.02);
+            }
+        </style>
+
+        <!-- OVERVIEW INFORMATION GRID -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 25px;">
 
             <!-- PROJECT DESCRIPTION -->
-            <div style="
-            background:var(--surface-bg);
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            border:1px solid rgba(0,0,0,0.05);
-        ">
-                <h2 style="margin-bottom:10px; color:var(--primary-gold); font-size:1.2rem;">
-                    Project Description
-                </h2>
-                <p style="color:var(--text-muted); font-size:0.95rem;">
+            <div class="req-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 1.3rem;">📝</span>
+                    <h2 style="color: var(--primary-gold); font-size: 1.25rem; font-weight: 700; margin: 0;">
+                        Project Description
+                    </h2>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
                     This project is a dynamic web platform designed to integrate PHP and SQL for real-world data interaction.
                     It serves as a central system for managing user input, displaying stored information, and simulating
                     a functional web application environment.
@@ -490,17 +558,14 @@
             </div>
 
             <!-- PURPOSE -->
-            <div style="
-            background:var(--surface-bg);
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            border:1px solid rgba(0,0,0,0.05);
-        ">
-                <h2 style="margin-bottom:10px; color:var(--primary-gold); font-size:1.2rem;">
-                    Purpose & Application
-                </h2>
-                <p style="color:var(--text-muted); font-size:0.95rem;">
+            <div class="req-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 1.3rem;">🎯</span>
+                    <h2 style="color: var(--primary-gold); font-size: 1.25rem; font-weight: 700; margin: 0;">
+                        Purpose &amp; Application
+                    </h2>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
                     The purpose of this website is to demonstrate my understanding of backend development using PHP and SQL.
                     It allows users to interact with forms, submit data, and view dynamically generated content stored in a database.
                     The application simulates real-world systems such as dashboards, calculators, and management tools.
@@ -508,74 +573,70 @@
             </div>
 
             <!-- TARGET AUDIENCE -->
-            <div style="
-            background:var(--surface-bg);
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            border:1px solid rgba(0,0,0,0.05);
-        ">
-                <h2 style="margin-bottom:10px; color:var(--primary-gold); font-size:1.2rem;">
-                    Target Audience
-                </h2>
-                <p style="color:var(--text-muted); font-size:0.95rem;">
+            <div class="req-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 1.3rem;">👥</span>
+                    <h2 style="color: var(--primary-gold); font-size: 1.25rem; font-weight: 700; margin: 0;">
+                        Target Audience
+                    </h2>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
                     The target audience includes students, instructors, and individuals interested in web applications.
                     It is also designed for users who need simple digital tools for calculations, data entry, or information management.
                 </p>
             </div>
 
             <!-- INSPIRATION -->
-            <div style="
-            background:var(--surface-bg);
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            border:1px solid rgba(0,0,0,0.05);
-        ">
-                <h2 style="margin-bottom:10px; color:var(--primary-gold); font-size:1.2rem;">
-                    Inspiration
-                </h2>
-                <p style="color:var(--text-muted); font-size:0.95rem;">
+            <div class="req-card">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                    <span style="font-size: 1.3rem;">💡</span>
+                    <h2 style="color: var(--primary-gold); font-size: 1.25rem; font-weight: 700; margin: 0;">
+                        Inspiration
+                    </h2>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;">
                     This idea was inspired by real-world business systems and interactive web platforms.
                     The goal is to combine classroom learning with practical development skills to build a fully functional website.
                 </p>
             </div>
-
-            <!-- SITEMAP -->
-            <div style="
-            grid-column:1 / -1;
-            background:var(--surface-bg);
-            padding:25px;
-            border-radius:14px;
-            box-shadow:0 10px 25px rgba(0,0,0,0.08);
-            border:1px solid rgba(0,0,0,0.05);
-        ">
-                <h2 style="margin-bottom:15px; color:var(--primary-gold); font-size:1.2rem;">
-                    Website Structure (Sitemap)
-                </h2>
-
-                <p style="color:var(--text-muted); margin-bottom:10px;">
-                    Home → Requirement Document → Work Station → Hand Project → Calculator → JavaScript → Debugging → Mortgage → Invoice → Quiz
-                </p>
-
-                <div style="font-family:monospace; color:var(--text-muted); line-height:1.8;">
-                    [ Home ]<br>
-                    &nbsp;&nbsp;&nbsp;↓<br>
-                    [ Requirement Document ]<br>
-                    &nbsp;&nbsp;&nbsp;↓<br>
-                    [ Tools Dashboard ]<br>
-                    &nbsp;&nbsp;&nbsp;├── Work Station Budget<br>
-                    &nbsp;&nbsp;&nbsp;├── Calculator System<br>
-                    &nbsp;&nbsp;&nbsp;├── Mortgage Tool<br>
-                    &nbsp;&nbsp;&nbsp;├── Invoice Generator<br>
-                    &nbsp;&nbsp;&nbsp;├── JavaScript Projects<br>
-                    &nbsp;&nbsp;&nbsp;└── Quiz System
-                </div>
-            </div>
-
         </div>
 
-    </section>
+        <!-- SITEMAP CARD (SPANNING FULL WIDTH) -->
+        <div class="req-card" style="margin-bottom: 25px;">
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                <span style="font-size: 1.3rem;">🌿</span>
+                <h2 style="color: var(--primary-gold); font-size: 1.3rem; font-weight: 700; margin: 0;">
+                    Website Structure (Sitemap)
+                </h2>
+            </div>
+
+            <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; font-style: italic;">
+                Home &rarr; Requirement Document &rarr; Work Station &rarr; Hand Project &rarr; Calculator &rarr; JavaScript &rarr; Debugging &rarr; Mortgage &rarr; Invoice &rarr; Quiz
+            </p>
+
+            <div class="sitemap-node" style="font-family: monospace; color: var(--text-main); line-height: 1.8; font-size: 0.95rem;">
+                <strong style="color: var(--primary-gold);">[ Home ]</strong><br>
+                &nbsp;&nbsp;└── <strong style="color: var(--primary-gold);">[ Requirement Document ]</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── <strong>[ Tools Dashboard ]</strong><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Work Station Budget<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Calculator System<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Mortgage Tool<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── Invoice Generator<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── JavaScript Projects<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Quiz System
+            </div>
+        </div>
+
+        <!-- FULL PAGE WIDTH BOTTOM IMAGE BLOCK -->
+        <div class="full-width-image-container">
+            <img src="images/requidoc.jpg" alt="Requirements Document Preview Blueprint" class="interactive-img" loading="lazy">
+            <!-- Floating overlay caption badge -->
+            <div style="position: absolute; bottom: 20px; left: 20px; background: rgba(17, 20, 26, 0.85); color: #fff; padding: 8px 16px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(4px); pointer-events: none;">
+                🔍 System Architecture Blueprint View
+            </div>
+        </div>
+
+    </main>
 
     <!-- ================= END REQUIREMENTS DOCUMENT ================= -->
     <!-- FOOTER -->
